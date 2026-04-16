@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>La Bonne Pâtisserie</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue-light: #daeeff;
+      --blue-mid:   #a8d8ea;
+      --blue-dark:  #4a90b8;
+      --cream:      #fffdf9;
+      --text:       #2c2c2c;
+      --text-soft:  #666;
+      --white:      #ffffff;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Lato', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(255,253,249,0.95);
+      backdrop-filter: blur(6px);
+      border-bottom: 1px solid var(--blue-mid);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 6%;
+      height: 64px;
+    }
+
+    .nav-brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      color: var(--blue-dark);
+      text-decoration: none;
+      letter-spacing: 0.5px;
+    }
+
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-soft);
+      font-size: 0.95rem;
+      letter-spacing: 0.5px;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--blue-dark); }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px; height: 2px;
+      background: var(--blue-dark);
+      border-radius: 2px;
+      transition: 0.3s;
+    }
+
+    /* ── HERO ── */
+    #home {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 100px 6% 60px;
+      background: linear-gradient(160deg, var(--blue-light) 0%, var(--cream) 60%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    #home::before {
+      content: '';
+      position: absolute;
+      width: 500px; height: 500px;
+      border-radius: 50%;
+      background: var(--blue-mid);
+      opacity: 0.15;
+      top: -120px; right: -120px;
+    }
+
+    #home::after {
+      content: '';
+      position: absolute;
+      width: 300px; height: 300px;
+      border-radius: 50%;
+      background: var(--blue-mid);
+      opacity: 0.1;
+      bottom: -80px; left: -80px;
+    }
+
+    .hero-content { position: relative; z-index: 1; max-width: 680px; }
+
+    .hero-tag {
+      display: inline-block;
+      background: var(--blue-mid);
+      color: var(--blue-dark);
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 20px;
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+    }
+
+    .hero-content h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 6vw, 4rem);
+      color: var(--text);
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+
+    .hero-content h1 em {
+      color: var(--blue-dark);
+      font-style: italic;
+    }
+
+    .hero-content p {
+      font-size: 1.05rem;
+      color: var(--text-soft);
+      line-height: 1.7;
+      margin-bottom: 2rem;
+      font-weight: 300;
+    }
+
+    .btn {
+      display: inline-block;
+      background: var(--blue-dark);
+      color: var(--white);
+      text-decoration: none;
+      padding: 14px 34px;
+      border-radius: 30px;
+      font-size: 0.95rem;
+      letter-spacing: 0.5px;
+      transition: background 0.2s, transform 0.2s;
+      border: none;
+      cursor: pointer;
+      font-family: 'Lato', sans-serif;
+    }
+    .btn:hover { background: #357a9e; transform: translateY(-2px); }
+
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--blue-dark);
+      color: var(--blue-dark);
+      margin-left: 12px;
+    }
+    .btn-outline:hover { background: var(--blue-light); transform: translateY(-2px); }
+
+    /* ── SECTION SHARED ── */
+    section { padding: 80px 6%; }
+
+    .section-label {
+      text-align: center;
+      font-size: 0.78rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--blue-dark);
+      font-weight: 700;
+      margin-bottom: 0.6rem;
+    }
+
+    .section-title {
+      text-align: center;
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      margin-bottom: 0.8rem;
+      color: var(--text);
+    }
+
+    .section-sub {
+      text-align: center;
+      color: var(--text-soft);
+      font-weight: 300;
+      max-width: 500px;
+      margin: 0 auto 3rem;
+      line-height: 1.7;
+    }
+
+    /* ── ABOUT STRIP ── */
+    #about {
+      background: var(--blue-dark);
+      color: var(--white);
+      padding: 60px 6%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4rem;
+      flex-wrap: wrap;
+      text-align: center;
+    }
+
+    .about-stat h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.4rem;
+      margin-bottom: 4px;
+    }
+    .about-stat p { font-size: 0.9rem; opacity: 0.8; letter-spacing: 1px; }
+
+    /* ── PRODUCTS ── */
+    #products { background: var(--cream); }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: var(--white);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(74,144,184,0.1);
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .card:hover { transform: translateY(-6px); box-shadow: 0 10px 30px rgba(74,144,184,0.18); }
+
+    .card-img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+      background: var(--blue-light);
+    }
+
+    /* Emoji placeholder when no real image */
+    .card-img-placeholder {
+      width: 100%;
+      height: 200px;
+      background: linear-gradient(135deg, var(--blue-light), var(--blue-mid));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+    }
+
+    .card-body { padding: 1.4rem; }
+
+    .card-body h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+
+    .card-body p {
+      font-size: 0.9rem;
+      color: var(--text-soft);
+      line-height: 1.6;
+      margin-bottom: 1rem;
+      font-weight: 300;
+    }
+
+    .card-price {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--blue-dark);
+    }
+
+    /* ── CONTACT ── */
+    #contact { background: var(--blue-light); }
+
+    .contact-wrap {
+      max-width: 900px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    .contact-info h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      margin-bottom: 1.2rem;
+      color: var(--text);
+    }
+
+    .info-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 1.2rem;
+    }
+
+    .info-icon {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      background: var(--blue-dark);
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    .info-text p:first-child { font-weight: 700; font-size: 0.85rem; color: var(--text-soft); letter-spacing: 1px; text-transform: uppercase; }
+    .info-text p:last-child  { font-size: 0.95rem; color: var(--text); margin-top: 2px; }
+
+    /* Form */
+    .contact-form { background: var(--white); border-radius: 16px; padding: 2rem; box-shadow: 0 4px 20px rgba(74,144,184,0.1); }
+
+    .form-group { margin-bottom: 1.2rem; }
+    .form-group label { display: block; font-size: 0.85rem; font-weight: 700; color: var(--text-soft); margin-bottom: 6px; letter-spacing: 0.5px; }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      border: 1.5px solid var(--blue-mid);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 0.95rem;
+      font-family: 'Lato', sans-serif;
+      color: var(--text);
+      background: var(--cream);
+      transition: border-color 0.2s;
+      outline: none;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus { border-color: var(--blue-dark); }
+
+    .form-group textarea { resize: vertical; min-height: 100px; }
+
+    .form-success {
+      display: none;
+      background: #e6f7ee;
+      color: #27ae60;
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-top: 1rem;
+      font-size: 0.95rem;
+      text-align: center;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--text);
+      color: rgba(255,255,255,0.6);
+      text-align: center;
+      padding: 28px 6%;
+      font-size: 0.85rem;
+    }
+    footer span { color: var(--blue-mid); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 700px) {
+      .nav-links { display: none; flex-direction: column; position: absolute; top: 64px; left: 0; right: 0; background: var(--cream); padding: 1.5rem 6%; border-bottom: 1px solid var(--blue-mid); gap: 1.2rem; }
+      .nav-links.open { display: flex; }
+      .hamburger { display: flex; }
+      .contact-wrap { grid-template-columns: 1fr; }
+      .btn-outline { margin-left: 0; margin-top: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#home" class="nav-brand">La Bonne Pâtisserie</a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#products">Products</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HOME -->
+<section id="home">
+  <div class="hero-content">
+    <span class="hero-tag">Freshly Baked Every Day</span>
+    <h1>Baked with love,<br><em>served with joy</em></h1>
+    <p>Handcrafted croissants, celebration cakes, and creamy cheesecakes — made fresh every morning in the heart of Jaipur.</p>
+    <a href="#products" class="btn">See Our Products</a>
+    <a href="#contact" class="btn btn-outline">Place an Order</a>
+  </div>
+</section>
+
+<!-- ABOUT STRIP -->
+<div id="about">
+  <div class="about-stat"><h3>3+</h3><p>Years of Baking</p></div>
+  <div class="about-stat"><h3>500+</h3><p>Happy Customers</p></div>
+  <div class="about-stat"><h3>100%</h3><p>Fresh Ingredients</p></div>
+  <div class="about-stat"><h3>Daily</h3><p>Fresh Batches</p></div>
+</div>
+
+<!-- PRODUCTS -->
+<section id="products">
+  <p class="section-label">Our Menu</p>
+  <h2 class="section-title">What We Bake</h2>
+  <p class="section-sub">Everything is made fresh daily using quality ingredients. No preservatives, just pure goodness.</p>
+
+  <div class="products-grid">
+
+    <div class="card">
+      <div class="card-img-placeholder">🎂</div>
+      <div class="card-body">
+        <h3>Custom Cakes</h3>
+        <p>Celebrate every special moment with our beautiful custom cakes. Available in various flavours and sizes.</p>
+        <span class="card-price">Starting at ₹699</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img-placeholder">🥐</div>
+      <div class="card-body">
+        <h3>Butter Croissants</h3>
+        <p>Flaky, golden, and perfectly buttery. Our croissants are baked fresh every morning — great with a cup of chai!</p>
+        <span class="card-price">₹60 per piece</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-img-placeholder">🍰</div>
+      <div class="card-body">
+        <h3>Cheesecakes</h3>
+        <p>Rich, creamy cheesecakes with a buttery biscuit base. Available in classic, blueberry, and strawberry flavours.</p>
+        <span class="card-price">Starting at ₹399</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <p class="section-label">Get in Touch</p>
+  <h2 class="section-title">Place an Order</h2>
+  <p class="section-sub">Fill out the form below and we'll get back to you as soon as possible!</p>
+
+  <div class="contact-wrap">
+
+    <div class="contact-info">
+      <h3>Visit Us or Call Us</h3>
+
+      <div class="info-item">
+        <div class="info-icon">📞</div>
+        <div class="info-text">
+          <p>Phone</p>
+          <p>9826070603</p>
+        </div>
+      </div>
+
+      <div class="info-item">
+        <div class="info-icon">📍</div>
+        <div class="info-text">
+          <p>Address</p>
+          <p>D-242 Gautam Marg, Nirman Nagar, Jaipur</p>
+        </div>
+      </div>
+
+      <div class="info-item">
+        <div class="info-icon">🕐</div>
+        <div class="info-text">
+          <p>Hours</p>
+          <p>Mon – Sat: 8:00 AM – 8:00 PM</p>
+        </div>
+      </div>
+
+      <div class="info-item">
+        <div class="info-icon">🎂</div>
+        <div class="info-text">
+          <p>Custom Orders</p>
+          <p>Please order at least 2 days in advance</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-form">
+      <div class="form-group">
+        <label>Your Name</label>
+        <input type="text" id="name" placeholder="e.g. Priya Sharma" />
+      </div>
+      <div class="form-group">
+        <label>Phone Number</label>
+        <input type="tel" id="phone" placeholder="e.g. 9800012345" />
+      </div>
+      <div class="form-group">
+        <label>What would you like to order?</label>
+        <select id="product">
+          <option value="">-- Select a product --</option>
+          <option>Custom Cake</option>
+          <option>Butter Croissants</option>
+          <option>Cheesecake</option>
+          <option>Multiple Items</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Message / Details</label>
+        <textarea id="message" placeholder="Tell us more — flavour, size, occasion, date needed..."></textarea>
+      </div>
+      <button class="btn" style="width:100%;" onclick="submitForm()">Send Order Request</button>
+      <div class="form-success" id="formSuccess">
+        🎉 Thanks! We'll call you back soon to confirm your order.
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>&copy; 2025 <span>La Bonne Pâtisserie</span> &nbsp;·&nbsp; D-242 Gautam Marg, Nirman Nagar, Jaipur &nbsp;·&nbsp; 9826070603</p>
+</footer>
+
+<script>
+  // Mobile menu toggle
+  const hamburger = document.getElementById('hamburger');
+  const navLinks  = document.getElementById('navLinks');
+
+  hamburger.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+  });
+
+  // Close menu when a link is clicked
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => navLinks.classList.remove('open'));
+  });
+
+  // Simple form validation
+  function submitForm() {
+    const name    = document.getElementById('name').value.trim();
+    const phone   = document.getElementById('phone').value.trim();
+    const product = document.getElementById('product').value;
+    const success = document.getElementById('formSuccess');
+
+    if (!name || !phone || !product) {
+      alert('Please fill in your name, phone number, and select a product.');
+      return;
+    }
+
+    if (phone.length < 10) {
+      alert('Please enter a valid phone number.');
+      return;
+    }
+
+    success.style.display = 'block';
+
+    // Reset form fields
+    document.getElementById('name').value    = '';
+    document.getElementById('phone').value   = '';
+    document.getElementById('product').value = '';
+    document.getElementById('message').value = '';
+
+    setTimeout(() => { success.style.display = 'none'; }, 5000);
+  }
+</script>
+
+</body>
+</html>
